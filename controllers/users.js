@@ -8,7 +8,7 @@ const { JWT_SECRET = 'enc-key-should-be-here' } = process.env;
 
 const getUserInfo = (req, res, next) => {
   user.findById(req.user._id)
-    .then((result) => res.send(result))
+    .then((result) => res.send({ name: result.name, email: result.email }))
     .catch(next);
 };
 
@@ -16,7 +16,7 @@ const changeUserInfo = (req, res, next) => {
   const { name, email } = req.body;
 
   user.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
-    .then((result) => res.send(result))
+    .then(() => res.send({ name, email }))
     .catch(next);
 };
 
@@ -44,4 +44,11 @@ const login = (req, res, next) => {
       });
     })
     .catch(next);
+};
+
+module.exports = {
+  getUserInfo,
+  changeUserInfo,
+  register,
+  login,
 };
