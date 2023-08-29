@@ -17,7 +17,12 @@ const changeUserInfo = (req, res, next) => {
 
   user.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
     .then(() => res.send({ name, email }))
-    .catch(next);
+    .catch((err) => {
+      if (err.code === 11000) {
+        next(new NotUniqueError('Пользователь с таким e-mail уже существует'));
+      }
+      next(err);
+    });
 };
 
 const register = (req, res, next) => {
