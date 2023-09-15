@@ -1,19 +1,19 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 
-const { urlRegExp } = require('../utils/constants');
+const { urlRegExp, emailRegExp } = require('../utils/constants');
 
 router.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    email: Joi.string().required().email(),
+    email: Joi.string().required().pattern(emailRegExp),
     password: Joi.string().required().min(8),
   }),
 }));
 
 router.post('/signin', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
+    email: Joi.string().required().pattern(emailRegExp),
     password: Joi.string().required().min(8),
   }),
 }));
@@ -21,7 +21,7 @@ router.post('/signin', celebrate({
 router.patch('/users/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    email: Joi.string().required().email(),
+    email: Joi.string().required().pattern(emailRegExp),
   }),
 }));
 

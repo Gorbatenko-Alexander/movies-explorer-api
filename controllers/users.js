@@ -30,7 +30,7 @@ const register = (req, res, next) => {
 
   bcrypt.hash(password, 10)
     .then((hash) => user.create({ name, email, password: hash }))
-    .then(res.status(201).send({ name, email }))
+    .then(() => res.status(201).send({ name, email }))
     .catch((err) => {
       if (err.code === 11000) {
         next(new NotUniqueError('Пользователь с таким e-mail уже существует'));
