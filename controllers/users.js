@@ -8,7 +8,7 @@ const { JWT_SECRET = 'enc-key-should-be-here' } = process.env;
 
 const getUserInfo = (req, res, next) => {
   user.findById(req.user._id)
-    .then((result) => res.send({ id: req.user._id, name: result.name, email: result.email }))
+    .then((result) => res.send({ _id: req.user._id, name: result.name, email: result.email }))
     .catch(next);
 };
 
